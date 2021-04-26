@@ -1,15 +1,10 @@
 """
-Template for the homework of exercise sheet 01.
-
-Remember to run the tests (just run the file) to see if your solution is
-correct.
+exercise01
+Wenjie Wu
+Dong Zhang
 """
 
 import unittest
-
-# if you want you can re-use the is_odd function from the attendance exercise
-# No, actually we don't need it
-# from exercise01_attendance import is_odd
 
 
 # homework problem 1
@@ -75,50 +70,45 @@ def fibonacci_seq_n(number):
     return fibs
 
 
-# homework problem 2
+# homework problem 2  ---------------------------------------------------------
+# (a) ------------------------------------------------------------------------
 def sum_square_difference(numbers):
-    """
-    Return ∑(x_1²) - (∑x_n)²
-    """
-    # list for x_n**2
-    numbers_sq = [x*x for x in numbers]
-    # sum for x_n and x_n^2
-    sum_x, sum_x_sq = 0.0, 0.0
-    for x, x_sq in zip(numbers, numbers_sq):
-        sum_x += x
-        sum_x_sq += x_sq
-    return sum_x_sq - (sum_x**2)
+    a = 0
+    # initial value of ∑(x_n²)
+    b = 0
+    # initial value of (∑x_n)²
+
+    for i in range(len(numbers)):
+        a = a + (numbers[i])*(numbers[i])
+        # ∑(x_n²)
+        b = b + numbers[i]
+        # (∑x_n)
+
+    return a - (b*b) # ∑(x_n²) - (∑x_n)²
+
+#print(sum_square_difference([1,2,3]))
+
+#(b) ------------------------------------------------------------------------------------------------------------------------------------
+def func_square_difference(func, numbers): # the variable of "func()" is list, so a and b are list now. 
+    a = [] # add terms like x_n² to this list
+    b = numbers # equal to the list "numbers"
+
+    for i in range(len(numbers)):
+        a = a + [(numbers[i])*(numbers[i])] # list of x_n²
+        
+    return func(a) - (func(b)*func(b)) # func(x_1²...x_n²) - func(x_1...x_n)² = func([x_1²,...,x_n²]) - func([x_1,...,x_n])²
 
 
-def func_square_difference(func, numbers):
-    """
-    Return func(x_1²...x_n²) - func(x_1...x_n)²
+#print(func_square_difference(mean, [1,2,3]))
 
-    :param func: And aggregating function that takes a list and returns a scalar number.
-    """
-    # List of [x_1^2...x_n^2]
-    numbers_sqrt = [x*x for x in numbers]
-    return func(numbers_sqrt) - (func(numbers)**2)
+#(c) ------------------------------------------------------------------------------------------------------------------------------------
+def mean(numbers): # if "numbers" means a list, then it can be used, otherwise its useless.
+    return sum(numbers)/len(numbers) # get the mean
 
 
-def mean(numbers):
-    "Calculates the arithmetic mean of ``numbers``"
-    return sum(numbers) / len(numbers)
 
-
-def variance(numbers):
-    "Calculates the variance of ``numbers``"
-    numbers_sq = [x*x for x in numbers]
-    # mean for x_n and x_n^2
-    ev, ev_2 = 0.0, 0.0
-    for x, x_sq in zip(numbers, numbers_sq):
-        ev += x
-        ev_2 += x_sq
-    # length of numbers
-    N = len(numbers)
-    ev /= N
-    ev_2 /= N
-    return ev_2 - (ev*ev)
+def variance(numbers): # get the variance by setting func = mean
+    return func_square_difference(mean, numbers)
 
 
 if __name__ == '__main__':
